@@ -56,6 +56,20 @@ class ProfileHeaderView: UIView {
         print(statusText.text!)
     }
     
+    private let newUIButton: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = .systemBlue
+        button.setTitle("Добавьте новую UIButton", for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(newTapAction), for: .touchUpInside)
+        return button
+    }()
+    
+    @objc private func newTapAction() {
+        print(statusText.text!)
+    }
+    
     private let statusText: UILabel = {
         let label = UILabel()
         label.text = "Настало время удивительных историй"
@@ -112,44 +126,58 @@ extension ProfileHeaderView {
         func setupView() {
             
             addSubview(backgound)
-            backgound.topAnchor.constraint(equalTo: (superview?.safeAreaLayoutGuide.topAnchor)!, constant: 0).isActive = true
-            backgound.leftAnchor.constraint(equalTo: (superview?.safeAreaLayoutGuide.leftAnchor)!, constant: 0).isActive = true
-            backgound.rightAnchor.constraint(equalTo: (superview?.safeAreaLayoutGuide.rightAnchor)!, constant: 0).isActive = true
-            backgound.bottomAnchor.constraint(equalTo: (superview?.safeAreaLayoutGuide.bottomAnchor)!, constant: 0).isActive = true
+            NSLayoutConstraint.activate([
+            backgound.topAnchor.constraint(equalTo: (superview?.safeAreaLayoutGuide.topAnchor)!, constant: 0),
+            backgound.leftAnchor.constraint(equalTo: (superview?.safeAreaLayoutGuide.leftAnchor)!, constant: 0),
+            backgound.rightAnchor.constraint(equalTo: (superview?.safeAreaLayoutGuide.rightAnchor)!, constant: 0),
+            backgound.bottomAnchor.constraint(equalTo: (superview?.safeAreaLayoutGuide.bottomAnchor)!, constant: 0)])
         
             
             addSubview(profilePicture)
-            profilePicture.topAnchor.constraint(equalTo: (superview?.safeAreaLayoutGuide.topAnchor)!, constant: 16).isActive = true
-            profilePicture.leftAnchor.constraint(equalTo: (superview?.safeAreaLayoutGuide.leftAnchor)!, constant: 16).isActive = true
-            profilePicture.widthAnchor.constraint(equalToConstant: 100).isActive = true
-            profilePicture.heightAnchor.constraint(equalToConstant: 100).isActive = true
+            NSLayoutConstraint.activate([
+            profilePicture.topAnchor.constraint(equalTo: (superview?.safeAreaLayoutGuide.topAnchor)!, constant: 16),
+            profilePicture.leftAnchor.constraint(equalTo: (superview?.safeAreaLayoutGuide.leftAnchor)!, constant: 16),
+            profilePicture.widthAnchor.constraint(equalToConstant: 100),
+            profilePicture.heightAnchor.constraint(equalToConstant: 100)])
             
             addSubview(nameDisplay)
-            nameDisplay.topAnchor.constraint(equalTo: (superview?.safeAreaLayoutGuide.topAnchor)!, constant: 27).isActive = true
-            nameDisplay.leftAnchor.constraint(equalTo: profilePicture.rightAnchor, constant: 16).isActive = true
+            NSLayoutConstraint.activate([
+            nameDisplay.topAnchor.constraint(equalTo: (superview?.safeAreaLayoutGuide.topAnchor)!, constant: 27),
+            nameDisplay.leftAnchor.constraint(equalTo: profilePicture.rightAnchor, constant: 16)])
            
             addSubview(statusButton)
-            statusButton.topAnchor.constraint(equalTo: profilePicture.bottomAnchor, constant: 16).isActive = true
-            statusButton.leftAnchor.constraint(equalTo: (superview?.safeAreaLayoutGuide.leftAnchor)!, constant: 16).isActive = true
-            statusButton.rightAnchor.constraint(equalTo: (superview?.safeAreaLayoutGuide.rightAnchor)!, constant: -16).isActive = true
-            statusButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+            NSLayoutConstraint.activate([
+            statusButton.topAnchor.constraint(equalTo: profilePicture.bottomAnchor, constant: 16),
+            statusButton.leftAnchor.constraint(equalTo: (superview?.safeAreaLayoutGuide.leftAnchor)!, constant: 16),
+            statusButton.rightAnchor.constraint(equalTo: (superview?.safeAreaLayoutGuide.rightAnchor)!, constant: -16),
+            statusButton.heightAnchor.constraint(equalToConstant: 50)])
             
             addSubview(statusText)
-            statusText.leftAnchor.constraint(equalTo: profilePicture.rightAnchor, constant: 16).isActive = true
-            statusText.rightAnchor.constraint(equalTo: (superview?.safeAreaLayoutGuide.rightAnchor)!, constant: -16).isActive = true
-            statusText.bottomAnchor.constraint(equalTo: statusButton.topAnchor, constant: -34).isActive = true
-
+            NSLayoutConstraint.activate([
+            statusText.leftAnchor.constraint(equalTo: profilePicture.rightAnchor, constant: 16),
+            statusText.rightAnchor.constraint(equalTo: (superview?.safeAreaLayoutGuide.rightAnchor)!, constant: -16),
+            statusText.bottomAnchor.constraint(equalTo: statusButton.topAnchor, constant: -34)])
+            
             addSubview(statusTextButton)
-            statusTextButton.leftAnchor.constraint(equalTo: profilePicture.rightAnchor, constant: 16).isActive = true
-            statusTextButton.rightAnchor.constraint(equalTo: (superview?.safeAreaLayoutGuide.rightAnchor)!, constant: -16).isActive = true
-            statusTextButton.bottomAnchor.constraint(equalTo: statusButton.topAnchor, constant: -34).isActive = true
+            NSLayoutConstraint.activate([
+            statusTextButton.leftAnchor.constraint(equalTo: profilePicture.rightAnchor, constant: 16),
+            statusTextButton.rightAnchor.constraint(equalTo: (superview?.safeAreaLayoutGuide.rightAnchor)!, constant: -16),
+            statusTextButton.bottomAnchor.constraint(equalTo: statusButton.topAnchor, constant: -34)])
 
             
             addSubview(statusTextField)
-            statusTextField.topAnchor.constraint(equalTo: statusText.topAnchor, constant: 16).isActive = true
-            statusTextField.leftAnchor.constraint(equalTo: profilePicture.rightAnchor, constant: 16).isActive = true
-            statusTextField.rightAnchor.constraint(equalTo: (superview?.safeAreaLayoutGuide.rightAnchor)!, constant: -16).isActive = true
-            statusTextField.heightAnchor.constraint(equalToConstant: 30).isActive = true
+            NSLayoutConstraint.activate([
+            statusTextField.topAnchor.constraint(equalTo: statusText.topAnchor, constant: 16),
+            statusTextField.leftAnchor.constraint(equalTo: profilePicture.rightAnchor, constant: 16),
+            statusTextField.rightAnchor.constraint(equalTo: (superview?.safeAreaLayoutGuide.rightAnchor)!, constant: -16),
+            statusTextField.heightAnchor.constraint(equalToConstant: 30)])
+            
+            addSubview(newUIButton)
+            NSLayoutConstraint.activate([
+            newUIButton.bottomAnchor.constraint(equalTo: (superview?.safeAreaLayoutGuide.bottomAnchor)!, constant: 0),
+            newUIButton.leftAnchor.constraint(equalTo: (superview?.safeAreaLayoutGuide.leftAnchor)!, constant: 0),
+            newUIButton.rightAnchor.constraint(equalTo: (superview?.safeAreaLayoutGuide.rightAnchor)!, constant: 0),
+            newUIButton.heightAnchor.constraint(equalToConstant: 50)])
             
             addSubview(testView)
         }
