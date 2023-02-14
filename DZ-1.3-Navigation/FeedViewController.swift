@@ -10,7 +10,7 @@ import UIKit
 class FeedViewController: UIViewController {
     
     var post = Post(title: "Мой пост")
-
+    
     private lazy var button: UIButton = {
             let button = UIButton()
             button.backgroundColor = .blue
@@ -27,7 +27,6 @@ class FeedViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemGray3
         setupButton()
-        buttonAction()
     }
     
     private func setupButton() {
