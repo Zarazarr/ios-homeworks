@@ -6,23 +6,6 @@
 //
 
 import UIKit
-
-/*
-class PostViewController: UIViewController {
-    
- private func setupView() {
-        self.view.backgroundColor = .lightGray
-        self.navigationItem.title = "Мой пост"
-        self.navigationItem.rightBarButtonItem = button
-    }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        self.view.backgroundColor = .lightGray
-        self.navigationItem.title = "Мой пост"
-    }
-}
-*/
   
 class PostViewController: UIViewController {
 
