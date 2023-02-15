@@ -9,13 +9,13 @@ import UIKit
 
 class ProfileViewController: UIViewController {
     
-    let profileHeaderView = ProfileHeaderView()//frame: UIScreen.main.bounds)
+    let profileHeaderView = ProfileHeaderView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-        navigationItem.title = "Profile"
-  //    profileHeaderView.frame = self.view.frame
+        navigationItem.title = "Профиль"
+      //profileHeaderView.frame = self.view.frame
     }
     
     override func viewWillLayoutSubviews() {
