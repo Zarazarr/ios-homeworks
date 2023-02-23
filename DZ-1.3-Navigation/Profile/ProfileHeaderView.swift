@@ -54,6 +54,11 @@ class ProfileHeaderView: UIView {
     
     @objc private func tapAction() {
         print(statusText.text!)
+        testString = "xxxx"
+        print(testString)
+  //    UINavigationBar.appearance().backgroundColor = .red
+  //    UITabBar.appearance().backgroundColor = .red
+
     }
     
     private let newUIButton: UIButton = {
@@ -183,3 +188,9 @@ extension ProfileHeaderView {
         }
 }
 
+extension ProfileHeaderView: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        endEditing(true)
+        return true
+    }
+}

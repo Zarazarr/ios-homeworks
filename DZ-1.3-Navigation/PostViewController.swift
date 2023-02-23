@@ -24,6 +24,5 @@ class PostViewController: UIViewController {
         let infoViewController = InfoViewController()
         infoViewController.modalPresentationStyle = .automatic
         present(infoViewController, animated: true)
-       // navigationController?.pushViewController(infoViewController, animated: true)
     }
 }
