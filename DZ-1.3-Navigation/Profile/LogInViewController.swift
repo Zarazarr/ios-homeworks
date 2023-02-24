@@ -46,6 +46,7 @@ class LogInViewController: UIViewController {
         textField.autocapitalizationType = .none
         textField.isHidden = false
         textField.translatesAutoresizingMaskIntoConstraints = false
+        textField.indent(size: 10)
         textField.addTarget(self, action: #selector(loginTextFieldAction), for: .editingDidEnd)
         return textField
     }()
@@ -70,9 +71,14 @@ class LogInViewController: UIViewController {
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.delegate = self
         textField.isSecureTextEntry = true
-        //textField.addTarget(self, action: #selector(buttonAction), for: .editingDidEnd)
+        textField.indent(size: 10)
+        textField.addTarget(self, action: #selector(passwordTextFieldAction), for: .editingDidEnd)
         return textField
     }()
+    
+    @objc private func passwordTextFieldAction() {
+        print(passwordTextField.text as Any)
+    }
     
     func checkLoginButtonStates() {
             switch logInButton.state {
@@ -100,17 +106,13 @@ class LogInViewController: UIViewController {
         }()
     
     @objc private func buttonAction() {
-        //self.navigationController?.pushViewController(ProfileViewController(), animated: false)
-        //self.navigationController?.setViewControllers([ProfileViewController()], animated: false)
         isLoggedIn = true
-     //   ProfileViewController().tabBarItem = UITabBarItem(title: "xxxx", image: UIImage(systemName: "person.circle"), tag: 1)
         navigationController?.setViewControllers([ProfileViewController()], animated: false)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-     // UINavigationBar.appearance().isHidden = true
         layout()
     }
     

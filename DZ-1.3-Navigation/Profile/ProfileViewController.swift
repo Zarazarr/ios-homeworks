@@ -15,7 +15,6 @@ class ProfileViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         navigationItem.title = "Профиль"
-      //UINavigationBar.appearance().isHidden = false
       //profileHeaderView.frame = self.view.frame
     }
     
