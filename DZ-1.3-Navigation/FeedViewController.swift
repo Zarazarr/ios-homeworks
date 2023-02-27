@@ -26,7 +26,7 @@ class FeedViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
         return button
-        }()
+    }()
     
     private lazy var button2: UIButton = {
         let button = UIButton()
@@ -36,13 +36,13 @@ class FeedViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
         return button
-        }()
+    }()
     
     @objc private func buttonAction() {
         let postViewController = PostViewController()
         self.navigationController?.pushViewController(postViewController, animated: true)
         postViewController.titlePost = post.title
-        }
+    }
     
     private let stackView: UIStackView = {
         let stackView = UIStackView()
@@ -57,30 +57,28 @@ class FeedViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
+        navigationItem.title = "Лента"
         setupButtons()
     }
     
     private func setupButtons() {
         view.addSubview(backgound)
+        view.addSubview(stackView)
+        stackView.addArrangedSubview(button1)
+        stackView.addArrangedSubview(button2)
+        //    stackView.backgroundColor = .red
+        
         NSLayoutConstraint.activate([
             backgound.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
             backgound.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 0),
             backgound.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: 0),
             backgound.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0),
-        ])
-        
-        view.addSubview(stackView)
-        stackView.addArrangedSubview(button1)
-        stackView.addArrangedSubview(button2)
-  //    stackView.backgroundColor = .red
             
-        NSLayoutConstraint.activate([
             button1.heightAnchor.constraint(equalToConstant: 50),
             button2.heightAnchor.constraint(equalToConstant: 50),
-
+            
             stackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
             stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-        ])
-        }
+            stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)])
+    }
 }

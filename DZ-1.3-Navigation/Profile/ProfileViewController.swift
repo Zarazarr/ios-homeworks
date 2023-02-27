@@ -23,6 +23,6 @@ class ProfileViewController: UIViewController {
         profileHeaderView.frame = view.bounds
         view.addSubview(profileHeaderView)
         profileHeaderView.setupView()
+        UINavigationBar.appearance().isHidden = false
     }
-    
 }
