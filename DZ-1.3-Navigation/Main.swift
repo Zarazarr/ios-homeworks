@@ -49,3 +49,9 @@ extension UITextField {
         self.leftViewMode = .always
     }
 }
+
+extension UIView {
+    static var identifier: String {
+        String(describing: self)
+    }
+}

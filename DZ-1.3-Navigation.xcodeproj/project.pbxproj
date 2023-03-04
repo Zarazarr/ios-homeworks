@@ -11,6 +11,8 @@
 		20160CF529A6D63000D03420 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20160CF429A6D63000D03420 /* TabBarController.swift */; };
 		2020B5FD2996C16400F22F21 /* ProfileHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2020B5FC2996C16400F22F21 /* ProfileHeaderView.swift */; };
 		2020B62929A5593900F22F21 /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2020B62829A5593900F22F21 /* LogInViewController.swift */; };
+		2040049C29B1434800187251 /* ProfilePost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2040049B29B1434800187251 /* ProfilePost.swift */; };
+		204CE66729B1694D005E5F5A /* PostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 204CE66629B1694D005E5F5A /* PostTableViewCell.swift */; };
 		20DEF71A298F0B42002CA670 /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20DEF719298F0B42002CA670 /* FeedViewController.swift */; };
 		20DEF71C298F0B5A002CA670 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20DEF71B298F0B5A002CA670 /* ProfileViewController.swift */; };
 		20DEF71E298F0B6F002CA670 /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20DEF71D298F0B6F002CA670 /* PostViewController.swift */; };
@@ -26,6 +28,8 @@
 		20160CF429A6D63000D03420 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		2020B5FC2996C16400F22F21 /* ProfileHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderView.swift; sourceTree = "<group>"; };
 		2020B62829A5593900F22F21 /* LogInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
+		2040049B29B1434800187251 /* ProfilePost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePost.swift; sourceTree = "<group>"; };
+		204CE66629B1694D005E5F5A /* PostTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostTableViewCell.swift; sourceTree = "<group>"; };
 		20DEF719298F0B42002CA670 /* FeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
 		20DEF71B298F0B5A002CA670 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		20DEF71D298F0B6F002CA670 /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
@@ -52,9 +56,11 @@
 		2020B5FB2996C12400F22F21 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
-				2020B5FC2996C16400F22F21 /* ProfileHeaderView.swift */,
-				20DEF71B298F0B5A002CA670 /* ProfileViewController.swift */,
 				2020B62829A5593900F22F21 /* LogInViewController.swift */,
+				20DEF71B298F0B5A002CA670 /* ProfileViewController.swift */,
+				2020B5FC2996C16400F22F21 /* ProfileHeaderView.swift */,
+				2040049B29B1434800187251 /* ProfilePost.swift */,
+				204CE66629B1694D005E5F5A /* PostTableViewCell.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -163,6 +169,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2040049C29B1434800187251 /* ProfilePost.swift in Sources */,
 				20160CF329A68CB300D03420 /* Main.swift in Sources */,
 				20DEF71E298F0B6F002CA670 /* PostViewController.swift in Sources */,
 				20FEB1F1298DA7D80097F4DA /* AppDelegate.swift in Sources */,
@@ -173,6 +180,7 @@
 				2020B5FD2996C16400F22F21 /* ProfileHeaderView.swift in Sources */,
 				20DEF75E29918B16002CA670 /* Post.swift in Sources */,
 				20DEF71A298F0B42002CA670 /* FeedViewController.swift in Sources */,
+				204CE66729B1694D005E5F5A /* PostTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

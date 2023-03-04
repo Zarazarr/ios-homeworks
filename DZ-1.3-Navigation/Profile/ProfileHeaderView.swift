@@ -57,17 +57,6 @@ class ProfileHeaderView: UIView {
         testString = "xxxx"
         print(testString)
     }
-    
-    private let newUIButton: UIButton = {
-        let button = UIButton()
-        button.backgroundColor = .systemBlue
-        button.setTitle("Добавьте новую UIButton", for: .normal)
-        button.setTitleColor(.white, for: .normal)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.addTarget(self, action: #selector(newTapAction), for: .touchUpInside)
-        return button
-    }()
-    
     @objc private func newTapAction() {
         print(statusText.text!)
     }
@@ -122,8 +111,17 @@ class ProfileHeaderView: UIView {
         return view
     }()
     
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupView()
+        backgroundColor = .black
+    }
     
-    func setupView() {
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func setupView() {
         
         addSubview(backgound)
         addSubview(profilePicture)
@@ -132,45 +130,41 @@ class ProfileHeaderView: UIView {
         addSubview(statusText)
         addSubview(statusTextButton)
         addSubview(statusTextField)
-        addSubview(newUIButton)
         addSubview(testView)
         
         NSLayoutConstraint.activate([
-            backgound.topAnchor.constraint(equalTo: (superview?.safeAreaLayoutGuide.topAnchor)!, constant: 0),
-            backgound.leftAnchor.constraint(equalTo: (superview?.safeAreaLayoutGuide.leftAnchor)!, constant: 0),
-            backgound.rightAnchor.constraint(equalTo: (superview?.safeAreaLayoutGuide.rightAnchor)!, constant: 0),
-            backgound.bottomAnchor.constraint(equalTo: (superview?.safeAreaLayoutGuide.bottomAnchor)!, constant: 0),
+            backgound.topAnchor.constraint(equalTo: topAnchor, constant: 0),
+            backgound.leftAnchor.constraint(equalTo: leftAnchor, constant: 0),
+            backgound.rightAnchor.constraint(equalTo: rightAnchor, constant: 0),
+            backgound.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 0),
         
-            profilePicture.topAnchor.constraint(equalTo: (superview?.safeAreaLayoutGuide.topAnchor)!, constant: 16),
-            profilePicture.leftAnchor.constraint(equalTo: (superview?.safeAreaLayoutGuide.leftAnchor)!, constant: 16),
+            profilePicture.topAnchor.constraint(equalTo: topAnchor, constant: 16),
+            profilePicture.leftAnchor.constraint(equalTo: leftAnchor, constant: 16),
             profilePicture.widthAnchor.constraint(equalToConstant: 100),
             profilePicture.heightAnchor.constraint(equalToConstant: 100),
-        
-            nameDisplay.topAnchor.constraint(equalTo: (superview?.safeAreaLayoutGuide.topAnchor)!, constant: 27),
+     
+            nameDisplay.topAnchor.constraint(equalTo: topAnchor, constant: 27),
             nameDisplay.leftAnchor.constraint(equalTo: profilePicture.rightAnchor, constant: 16),
         
             statusButton.topAnchor.constraint(equalTo: profilePicture.bottomAnchor, constant: 16),
-            statusButton.leftAnchor.constraint(equalTo: (superview?.safeAreaLayoutGuide.leftAnchor)!, constant: 16),
-            statusButton.rightAnchor.constraint(equalTo: (superview?.safeAreaLayoutGuide.rightAnchor)!, constant: -16),
+            statusButton.leftAnchor.constraint(equalTo: leftAnchor, constant: 16),
+            statusButton.rightAnchor.constraint(equalTo: rightAnchor, constant: -16),
             statusButton.heightAnchor.constraint(equalToConstant: 50),
+            statusButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16),
         
             statusText.leftAnchor.constraint(equalTo: profilePicture.rightAnchor, constant: 16),
-            statusText.rightAnchor.constraint(equalTo: (superview?.safeAreaLayoutGuide.rightAnchor)!, constant: -16),
+            statusText.rightAnchor.constraint(equalTo: rightAnchor, constant: -16),
             statusText.bottomAnchor.constraint(equalTo: statusButton.topAnchor, constant: -34),
         
             statusTextButton.leftAnchor.constraint(equalTo: profilePicture.rightAnchor, constant: 16),
-            statusTextButton.rightAnchor.constraint(equalTo: (superview?.safeAreaLayoutGuide.rightAnchor)!, constant: -16),
+            statusTextButton.rightAnchor.constraint(equalTo: rightAnchor, constant: -16),
             statusTextButton.bottomAnchor.constraint(equalTo: statusButton.topAnchor, constant: -34),
         
             statusTextField.topAnchor.constraint(equalTo: statusText.topAnchor, constant: 16),
             statusTextField.leftAnchor.constraint(equalTo: profilePicture.rightAnchor, constant: 16),
-            statusTextField.rightAnchor.constraint(equalTo: (superview?.safeAreaLayoutGuide.rightAnchor)!, constant: -16),
-            statusTextField.heightAnchor.constraint(equalToConstant: 30),
-        
-            newUIButton.bottomAnchor.constraint(equalTo: (superview?.safeAreaLayoutGuide.bottomAnchor)!, constant: 0),
-            newUIButton.leftAnchor.constraint(equalTo: (superview?.safeAreaLayoutGuide.leftAnchor)!, constant: 0),
-            newUIButton.rightAnchor.constraint(equalTo: (superview?.safeAreaLayoutGuide.rightAnchor)!, constant: 0),
-            newUIButton.heightAnchor.constraint(equalToConstant: 50)])
+            statusTextField.rightAnchor.constraint(equalTo: rightAnchor, constant: -16),
+            statusTextField.heightAnchor.constraint(equalToConstant: 30),            
+        ])
     }
 }
 
