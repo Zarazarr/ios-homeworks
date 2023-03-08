@@ -8,11 +8,11 @@
 import UIKit
 
 class TabBarController: UITabBarController {
-
+    
     var feedVC = UINavigationController(rootViewController: FeedViewController())
     private let profileVC = UINavigationController(rootViewController: ProfileViewController())
     private let loginVC = UINavigationController(rootViewController: LogInViewController())
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTabBar()
@@ -27,8 +27,8 @@ class TabBarController: UITabBarController {
         profileVC.tabBarItem.image = UIImage(systemName: "person.circle")
         feedVC.tabBarItem.title = "Лента"
         feedVC.tabBarItem.image = UIImage(systemName: "doc.richtext")
-   //   UINavigationBar.appearance().backgroundColor = .systemBackground
-   //   UINavigationBar.appearance().isHidden = true
+        //      UINavigationBar.appearance().backgroundColor = .systemBackground
+        //      UINavigationBar.appearance().isHidden = true
     }
-
+    
 }

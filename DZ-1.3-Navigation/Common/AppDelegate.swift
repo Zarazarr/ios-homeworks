@@ -17,8 +17,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.rootViewController = TabBarController()
         window?.makeKeyAndVisible()
         UINavigationBar.appearance().backgroundColor = .systemBackground
-        UINavigationBar.appearance().isHidden = true
+        //     UINavigationBar.appearance().isHidden = true
         return true
     }
 }
-    
+

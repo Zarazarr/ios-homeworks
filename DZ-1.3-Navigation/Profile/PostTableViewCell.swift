@@ -8,7 +8,7 @@
 import UIKit
 
 class PostTableViewCell: UITableViewCell {
-
+    
     private let contentWhiteView: UIView = {
         let view = UIView()
         view.backgroundColor = .systemBackground
@@ -43,7 +43,7 @@ class PostTableViewCell: UITableViewCell {
         label.textColor = .systemGray
         return label
     }()
-
+    
     private let likesText: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -65,7 +65,6 @@ class PostTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        customizeCell()
         layout()
     }
     
@@ -90,10 +89,6 @@ class PostTableViewCell: UITableViewCell {
         viewsText.text = "Views: \(model.views)"
     }
     
-    private func customizeCell() {
-//        contentView.backgroundColor = .white
-    }
-    
     private func layout() {
         contentView.addSubview(authorText)
         contentView.addSubview(postImageView)
@@ -102,11 +97,11 @@ class PostTableViewCell: UITableViewCell {
         contentView.addSubview(viewsText)
         
         NSLayoutConstraint.activate([
-        
+            
             authorText.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
             authorText.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             authorText.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-      
+            
             postImageView.topAnchor.constraint(equalTo: authorText.bottomAnchor, constant: 16),
             postImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 0),
             postImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 0),
@@ -119,7 +114,7 @@ class PostTableViewCell: UITableViewCell {
             likesText.topAnchor.constraint(equalTo: descriptionText.bottomAnchor, constant: 10),
             likesText.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             likesText.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16),
-
+            
             viewsText.topAnchor.constraint(equalTo: descriptionText.bottomAnchor, constant: 10),
             viewsText.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             viewsText.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16),
