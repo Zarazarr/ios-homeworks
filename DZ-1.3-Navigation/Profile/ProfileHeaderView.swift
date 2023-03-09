@@ -37,7 +37,7 @@ class ProfileHeaderView: UIView {
         return label
     }()
     
-    private let statusButton: UIButton = {
+    private lazy var statusButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .systemBlue
         button.setTitle("Показать статус", for: .normal)
@@ -72,7 +72,7 @@ class ProfileHeaderView: UIView {
         return label
     }()
     
-    private let statusTextButton: UIButton = {
+    private lazy var statusTextButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(statusTapAction), for: .touchUpInside)
@@ -83,7 +83,7 @@ class ProfileHeaderView: UIView {
         statusTextField.isHidden = false
     }
     
-    private let statusTextField: UITextField = {
+    private lazy var statusTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "Что на душе?"
         textField.backgroundColor = .white
@@ -137,29 +137,29 @@ class ProfileHeaderView: UIView {
             backgound.leftAnchor.constraint(equalTo: leftAnchor, constant: 0),
             backgound.rightAnchor.constraint(equalTo: rightAnchor, constant: 0),
             backgound.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 0),
-        
+            
             profilePicture.topAnchor.constraint(equalTo: topAnchor, constant: 16),
             profilePicture.leftAnchor.constraint(equalTo: leftAnchor, constant: 16),
             profilePicture.widthAnchor.constraint(equalToConstant: 100),
             profilePicture.heightAnchor.constraint(equalToConstant: 100),
-     
+            
             nameDisplay.topAnchor.constraint(equalTo: topAnchor, constant: 27),
             nameDisplay.leftAnchor.constraint(equalTo: profilePicture.rightAnchor, constant: 16),
-        
+            
             statusButton.topAnchor.constraint(equalTo: profilePicture.bottomAnchor, constant: 16),
             statusButton.leftAnchor.constraint(equalTo: leftAnchor, constant: 16),
             statusButton.rightAnchor.constraint(equalTo: rightAnchor, constant: -16),
             statusButton.heightAnchor.constraint(equalToConstant: 50),
             statusButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16),
-        
+            
             statusText.leftAnchor.constraint(equalTo: profilePicture.rightAnchor, constant: 16),
             statusText.rightAnchor.constraint(equalTo: rightAnchor, constant: -16),
             statusText.bottomAnchor.constraint(equalTo: statusButton.topAnchor, constant: -34),
-        
+            
             statusTextButton.leftAnchor.constraint(equalTo: profilePicture.rightAnchor, constant: 16),
             statusTextButton.rightAnchor.constraint(equalTo: rightAnchor, constant: -16),
             statusTextButton.bottomAnchor.constraint(equalTo: statusButton.topAnchor, constant: -34),
-        
+            
             statusTextField.topAnchor.constraint(equalTo: statusText.topAnchor, constant: 16),
             statusTextField.leftAnchor.constraint(equalTo: profilePicture.rightAnchor, constant: 16),
             statusTextField.rightAnchor.constraint(equalTo: rightAnchor, constant: -16),

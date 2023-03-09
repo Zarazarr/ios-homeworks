@@ -81,15 +81,15 @@ class LogInViewController: UIViewController {
     }
     
     func checkLoginButtonStates() {
-            switch logInButton.state {
-            case .normal: logInButton.alpha = 1
-            case .selected: logInButton.alpha = 0.8
-            case .highlighted: logInButton.alpha = 0.8
-            case .disabled: logInButton.alpha = 0.8
-            default:
+        switch logInButton.state {
+        case .normal: logInButton.alpha = 1
+        case .selected: logInButton.alpha = 0.8
+        case .highlighted: logInButton.alpha = 0.8
+        case .disabled: logInButton.alpha = 0.8
+        default:
             break
-            }
         }
+    }
     
     private lazy var logInButton: UIButton = {
         
@@ -103,11 +103,13 @@ class LogInViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
         return button
-        }()
+    }()
     
     @objc private func buttonAction() {
         isLoggedIn = true
-        navigationController?.setViewControllers([ProfileViewController()], animated: false)
+        //   navigationController?.setViewControllers([ProfileViewController()], animated: false)
+        navigationController?.pushViewController(ProfileViewController(), animated: false)
+        
     }
     
     override func viewDidLoad() {
@@ -155,38 +157,38 @@ class LogInViewController: UIViewController {
         }
         
         NSLayoutConstraint.activate([
-    
-        scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-        scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-        scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-        scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-                
-        contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
-        contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-        contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-        contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
-        contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
             
-        logoImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 120),
-        logoImageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-        logoImageView.heightAnchor.constraint(equalToConstant: 100),
-        logoImageView.widthAnchor.constraint(equalToConstant: 100),
-        
-        loginTextField.topAnchor.constraint(equalTo: logoImageView.bottomAnchor, constant: 120),
-        loginTextField.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-        loginTextField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-        loginTextField.heightAnchor.constraint(equalToConstant: 50),
-        
-        passwordTextField.topAnchor.constraint(equalTo: loginTextField.bottomAnchor),
-        passwordTextField.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-        passwordTextField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-        passwordTextField.heightAnchor.constraint(equalToConstant: 50),
-        
-        logInButton.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: 16),
-        logInButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-        logInButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-        logInButton.heightAnchor.constraint(equalToConstant: 50),
-        logInButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            
+            contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+            
+            logoImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 120),
+            logoImageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            logoImageView.heightAnchor.constraint(equalToConstant: 100),
+            logoImageView.widthAnchor.constraint(equalToConstant: 100),
+            
+            loginTextField.topAnchor.constraint(equalTo: logoImageView.bottomAnchor, constant: 120),
+            loginTextField.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            loginTextField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            loginTextField.heightAnchor.constraint(equalToConstant: 50),
+            
+            passwordTextField.topAnchor.constraint(equalTo: loginTextField.bottomAnchor),
+            passwordTextField.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            passwordTextField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            passwordTextField.heightAnchor.constraint(equalToConstant: 50),
+            
+            logInButton.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: 16),
+            logInButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            logInButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            logInButton.heightAnchor.constraint(equalToConstant: 50),
+            logInButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
     }
 }

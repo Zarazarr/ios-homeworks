@@ -61,12 +61,16 @@ class FeedViewController: UIViewController {
         setupButtons()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        //      navigationController?.setNavigationBarHidden(false, animated: true)
+    }
+    
     private func setupButtons() {
         view.addSubview(backgound)
         view.addSubview(stackView)
         stackView.addArrangedSubview(button1)
         stackView.addArrangedSubview(button2)
-        //    stackView.backgroundColor = .red
         
         NSLayoutConstraint.activate([
             backgound.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
