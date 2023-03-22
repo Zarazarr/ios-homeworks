@@ -54,10 +54,27 @@ class FeedViewController: UIViewController {
         return stackView
     }()
     
+    private lazy var logoutButton: UIBarButtonItem = UIBarButtonItem(title: "LogOut", style: .plain, target: self, action: #selector(logoutButtonAction))
+    
+    @objc private func logoutButtonAction() {
+        isLoggedIn = false
+       
+        let alert = UIAlertController(title: "LogOut", message: "Пока не работает", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "Выйти", style: .default) { _ in
+            self.dismiss(animated: true)
+        }
+        let cancelAction = UIAlertAction(title: "ОК", style: .destructive) { _ in
+        }
+        alert.addAction(cancelAction)
+        alert.addAction(okAction)
+        present(alert, animated: true)
+    }
+ 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         navigationItem.title = "Лента"
+        navigationItem.rightBarButtonItem = logoutButton
         setupButtons()
     }
     

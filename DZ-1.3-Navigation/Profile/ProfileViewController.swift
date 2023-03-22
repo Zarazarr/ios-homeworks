@@ -15,7 +15,6 @@ class ProfileViewController: UIViewController {
         let tableView = UITableView(frame: .zero, style: .grouped)
         tableView.dataSource = self
         tableView.delegate = self
-        //     tableView.sectionHeaderTopPadding = .zero
         tableView.sectionHeaderHeight = 0
         tableView.sectionFooterHeight = 0
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -25,6 +24,11 @@ class ProfileViewController: UIViewController {
         return tableView
     }()
     
+    @objc private func arrowButtonAction() {
+        let galleryVC = GalleryViewController()
+        navigationController?.pushViewController(galleryVC, animated: true)
+    }
+    
     override func loadView() {
         super.loadView()
     }
@@ -33,14 +37,12 @@ class ProfileViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         navigationItem.title = "Профиль"
-        //profileHeaderView.frame = self.view.frame
         layout()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: true)
-        
     }
     
     override func viewWillLayoutSubviews() {
@@ -86,11 +88,6 @@ extension ProfileViewController: UITableViewDataSource {
         }
     }
     
-    @objc private func arrowButtonAction() {
-        let galleryVC = GalleryViewController()
-        navigationController?.pushViewController(galleryVC, animated: true)
-    }
-    
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if section == 0 {
             return ProfileHeaderView()
@@ -99,7 +96,6 @@ extension ProfileViewController: UITableViewDataSource {
         }
     } 
 }
-
 
 
 extension ProfileViewController: UITableViewDelegate {

@@ -12,6 +12,8 @@
 		201873E229B3C989008645C5 /* GalleryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 201873E129B3C989008645C5 /* GalleryCollectionViewCell.swift */; };
 		201873E429B3C9FA008645C5 /* GalleryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 201873E329B3C9FA008645C5 /* GalleryViewController.swift */; };
 		201873E629B69FD3008645C5 /* GalleryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 201873E529B69FD3008645C5 /* GalleryTableViewCell.swift */; };
+		201873E829BBC5BB008645C5 /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 201873E729BBC5BB008645C5 /* TestView.swift */; };
+		201873EB29BBC61A008645C5 /* TestVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 201873EA29BBC61A008645C5 /* TestVC.swift */; };
 		2020B5FD2996C16400F22F21 /* ProfileHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2020B5FC2996C16400F22F21 /* ProfileHeaderView.swift */; };
 		2020B62929A5593900F22F21 /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2020B62829A5593900F22F21 /* LogInViewController.swift */; };
 		2040049C29B1434800187251 /* ProfilePost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2040049B29B1434800187251 /* ProfilePost.swift */; };
@@ -32,6 +34,8 @@
 		201873E129B3C989008645C5 /* GalleryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryCollectionViewCell.swift; sourceTree = "<group>"; };
 		201873E329B3C9FA008645C5 /* GalleryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryViewController.swift; sourceTree = "<group>"; };
 		201873E529B69FD3008645C5 /* GalleryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryTableViewCell.swift; sourceTree = "<group>"; };
+		201873E729BBC5BB008645C5 /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
+		201873EA29BBC61A008645C5 /* TestVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestVC.swift; sourceTree = "<group>"; };
 		2020B5FC2996C16400F22F21 /* ProfileHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderView.swift; sourceTree = "<group>"; };
 		2020B62829A5593900F22F21 /* LogInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
 		2040049B29B1434800187251 /* ProfilePost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePost.swift; sourceTree = "<group>"; };
@@ -104,6 +108,15 @@
 			path = Gallery;
 			sourceTree = "<group>";
 		};
+		201873E929BBC5FC008645C5 /* Test */ = {
+			isa = PBXGroup;
+			children = (
+				201873E729BBC5BB008645C5 /* TestView.swift */,
+				201873EA29BBC61A008645C5 /* TestVC.swift */,
+			);
+			path = Test;
+			sourceTree = "<group>";
+		};
 		2020B5FB2996C12400F22F21 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
@@ -144,6 +157,7 @@
 				201873DE29B3A23D008645C5 /* LogIn */,
 				201873E029B3C7E4008645C5 /* Gallery */,
 				2020B5FB2996C12400F22F21 /* Profile */,
+				201873E929BBC5FC008645C5 /* Test */,
 			);
 			path = "DZ-1.3-Navigation";
 			sourceTree = "<group>";
@@ -222,11 +236,13 @@
 				201873E429B3C9FA008645C5 /* GalleryViewController.swift in Sources */,
 				20160CF329A68CB300D03420 /* Main.swift in Sources */,
 				20DEF71E298F0B6F002CA670 /* PostViewController.swift in Sources */,
+				201873E829BBC5BB008645C5 /* TestView.swift in Sources */,
 				20FEB1F1298DA7D80097F4DA /* AppDelegate.swift in Sources */,
 				20160CF529A6D63000D03420 /* TabBarController.swift in Sources */,
 				20DEF71C298F0B5A002CA670 /* ProfileViewController.swift in Sources */,
 				20DEF760299195FF002CA670 /* InfoViewController.swift in Sources */,
 				201873E629B69FD3008645C5 /* GalleryTableViewCell.swift in Sources */,
+				201873EB29BBC61A008645C5 /* TestVC.swift in Sources */,
 				2020B62929A5593900F22F21 /* LogInViewController.swift in Sources */,
 				2020B5FD2996C16400F22F21 /* ProfileHeaderView.swift in Sources */,
 				20DEF75E29918B16002CA670 /* Post.swift in Sources */,

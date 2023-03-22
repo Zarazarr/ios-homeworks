@@ -27,7 +27,6 @@ final class GalleryCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
     func setupCell() {
         contentView.addSubview(photo)
         backgroundColor = .systemBackground
