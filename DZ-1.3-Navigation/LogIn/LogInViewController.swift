@@ -11,6 +11,8 @@ class LogInViewController: UIViewController {
     
     private let notification = NotificationCenter.default
     
+    private var loginButtonCounter = 0
+
     let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -24,13 +26,25 @@ class LogInViewController: UIViewController {
         return contentView
     }()
     
-    private let logoImageView: UIImageView = {
+    private lazy var logoImageView: UIImageView = {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.image = UIImage(named: "logo")
         $0.contentMode = .scaleAspectFill
         $0.clipsToBounds = true
+        $0.isUserInteractionEnabled = true
+        $0.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(testBackdoor)))
         return $0
     }(UIImageView())
+    
+    @objc private func testBackdoor() {
+        isLoggedIn = true
+        loginButtonCounter += 1
+        if loginButtonCounter > 4 {
+            navigationController?.pushViewController(TestVC(), animated: false)
+            loginButtonCounter = 0
+        }
+    }
+    
     
     private lazy var loginTextField: UITextField = {
         let textField = UITextField()
@@ -107,9 +121,13 @@ class LogInViewController: UIViewController {
     
     @objc private func buttonAction() {
         isLoggedIn = true
-        //   navigationController?.setViewControllers([ProfileViewController()], animated: false)
-        navigationController?.pushViewController(ProfileViewController(), animated: false)
-        
+   //     loginButtonCounter += 1
+        print(loginButtonCounter)
+        if loginTextField.text == "Test" {
+            navigationController?.pushViewController(TestVC(), animated: false)
+        } else {
+            navigationController?.pushViewController(ProfileViewController(), animated: false)
+        }
     }
     
     override func viewDidLoad() {
@@ -120,6 +138,7 @@ class LogInViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        navigationController?.tabBarController?.tabBar.isHidden = true
         notification.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         notification.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
@@ -128,6 +147,7 @@ class LogInViewController: UIViewController {
         super.viewWillDisappear(animated)
         notification.removeObserver(UIResponder.keyboardWillShowNotification)
         notification.removeObserver(UIResponder.keyboardWillHideNotification)
+        navigationController?.tabBarController?.tabBar.isHidden = false
     }
     
     @objc private func keyboardWillShow(notification: NSNotification) {

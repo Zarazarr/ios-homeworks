@@ -9,6 +9,19 @@ import UIKit
 
 class GalleryTableViewCell: UITableViewCell {
     
+    private var randomInt1 = 0
+    private var randomInt2 = 0
+    private var randomInt3 = 0
+    private var randomInt4 = 0
+    
+    func generateRandomFoto() {
+        randomInt1 = Int.random(in: 51...55)
+        print(randomInt1)
+        randomInt2 = Int.random(in: 56...60)
+        randomInt3 = Int.random(in: 61...65)
+        randomInt4 = Int.random(in: 66...70)
+    }
+    
     private let photoLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -28,7 +41,7 @@ class GalleryTableViewCell: UITableViewCell {
     
     private lazy var photo1: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "DSC_00\(Int.random(in: 51...55))")
+        imageView.image = UIImage(named: "DSC_00\(randomInt1)")
         imageView.contentMode = .scaleAspectFill
         imageView.layer.cornerRadius = 6
         imageView.clipsToBounds = true
@@ -38,7 +51,7 @@ class GalleryTableViewCell: UITableViewCell {
     
     private lazy var photo2: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "DSC_00\(Int.random(in: 56...60))")
+        imageView.image = UIImage(named: "DSC_00\(randomInt2)")
         imageView.contentMode = .scaleAspectFill
         imageView.layer.cornerRadius = 6
         imageView.clipsToBounds = true
@@ -48,7 +61,7 @@ class GalleryTableViewCell: UITableViewCell {
     
     private lazy var photo3: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "DSC_00\(Int.random(in: 61...65))")
+        imageView.image = UIImage(named: "DSC_00\(randomInt3)")
         imageView.contentMode = .scaleAspectFill
         imageView.layer.cornerRadius = 6
         imageView.clipsToBounds = true
@@ -58,7 +71,7 @@ class GalleryTableViewCell: UITableViewCell {
     
     private lazy var photo4: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "DSC_00\(Int.random(in: 66...70))")
+        imageView.image = UIImage(named: "DSC_00\(randomInt4)")
         imageView.contentMode = .scaleAspectFill
         imageView.layer.cornerRadius = 6
         imageView.clipsToBounds = true
@@ -78,7 +91,7 @@ class GalleryTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        customizeCell()
+        generateRandomFoto()
         layout()
     }
     
@@ -87,14 +100,8 @@ class GalleryTableViewCell: UITableViewCell {
     }
     
     
-    private func customizeCell() {
-        //        contentView.backgroundColor = .white
-    }
-    
-    private func layout() {
-        
-        let imageWidth = (UIScreen.main.bounds.width - 24 - 24)/4
-        
+    func layout() {
+                
         contentView.addSubview(stackView)
         contentView.addSubview(photoLabel)
         contentView.addSubview(arrowButton)
@@ -112,19 +119,26 @@ class GalleryTableViewCell: UITableViewCell {
             arrowButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -12),
             arrowButton.centerYAnchor.constraint(equalTo: photoLabel.centerYAnchor),
             
-            photo1.heightAnchor.constraint(equalToConstant: imageWidth),
-            photo1.widthAnchor.constraint(equalToConstant: imageWidth),
-            photo2.heightAnchor.constraint(equalToConstant: imageWidth),
-            photo2.widthAnchor.constraint(equalToConstant: imageWidth),
-            photo3.heightAnchor.constraint(equalToConstant: imageWidth),
-            photo3.widthAnchor.constraint(equalToConstant: imageWidth),
-            photo4.heightAnchor.constraint(equalToConstant: imageWidth),
-            photo4.widthAnchor.constraint(equalToConstant: imageWidth),
+            photo1.heightAnchor.constraint(equalToConstant: Metrics.imageHeight),
+            photo1.widthAnchor.constraint(equalToConstant: Metrics.imageWidth),
+            photo2.heightAnchor.constraint(equalToConstant: Metrics.imageHeight),
+            photo2.widthAnchor.constraint(equalToConstant: Metrics.imageWidth),
+            photo3.heightAnchor.constraint(equalToConstant: Metrics.imageHeight),
+            photo3.widthAnchor.constraint(equalToConstant: Metrics.imageWidth),
+            photo4.heightAnchor.constraint(equalToConstant: Metrics.imageHeight),
+            photo4.widthAnchor.constraint(equalToConstant: Metrics.imageWidth),
             
             stackView.topAnchor.constraint(equalTo: photoLabel.bottomAnchor, constant: 12),
             stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -12),
             stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 12),
             stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -12),
         ])
+    }
+}
+
+extension GalleryTableViewCell {
+    enum Metrics {
+        static let imageWidth = (UIScreen.main.bounds.width - 24 - 24)/4
+        static let imageHeight = (UIScreen.main.bounds.width - 24 - 24)/4
     }
 }

@@ -9,6 +9,74 @@ import UIKit
 
 class ProfileHeaderView: UIView {
     
+    private lazy var whiteView: UIView = {
+        let view = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .white
+        view.alpha = 0.7
+        return view
+    }()
+    
+    private lazy var animatingImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.clipsToBounds = true
+        return imageView
+    }()
+    
+    lazy var closeButton: UIButton = {
+        let button = UIButton(type: .close)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(closeAction), for: .touchUpInside)
+        return button
+    }()
+    
+    @objc private func imageAnimation() {
+        addSubview(whiteView)
+        addSubview(animatingImageView)
+        addSubview(closeButton)
+
+        NSLayoutConstraint.activate([
+            
+            whiteView.topAnchor.constraint(equalTo: superview!.safeAreaLayoutGuide.topAnchor, constant: 0),
+            whiteView.bottomAnchor.constraint(equalTo: superview!.safeAreaLayoutGuide.bottomAnchor, constant: 0),
+            whiteView.leftAnchor.constraint(equalTo: superview!.safeAreaLayoutGuide.leftAnchor, constant: 0),
+            whiteView.rightAnchor.constraint(equalTo: superview!.safeAreaLayoutGuide.rightAnchor, constant: 0),
+          
+            closeButton.topAnchor.constraint(equalTo: superview!.safeAreaLayoutGuide.topAnchor, constant: 0),
+            closeButton.rightAnchor.constraint(equalTo: superview!.safeAreaLayoutGuide.rightAnchor, constant: 0),
+            ])
+        
+        closeButton.alpha = 0
+        animatingImageView.image = profilePicture.image
+        animatingImageView.frame = profilePicture.frame
+        
+        UIView.animate(withDuration: 0.5) {
+            self.animatingImageView.frame.size = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width)
+            self.animatingImageView.center.x = self.superview!.center.x
+            self.animatingImageView.center.y = self.superview!.center.y - TabBarController().tabBar.bounds.height
+            self.animatingImageView.layer.cornerRadius = 0
+        } completion: { _ in
+            UIView.animate(withDuration: 0.3) {
+                self.closeButton.alpha = 1
+            }
+        }
+    }
+    
+    @objc func closeAction() {
+        UIView.animate(withDuration: 0.3) {
+            self.closeButton.alpha = 0
+        } completion: { _ in
+            UIView.animate(withDuration: 0.5) {
+                self.animatingImageView.layer.cornerRadius = self.profilePicture.layer.cornerRadius
+                self.animatingImageView.frame = self.profilePicture.frame
+            } completion: { _ in
+                self.whiteView.removeFromSuperview()
+                self.closeButton.removeFromSuperview()
+                self.animatingImageView.removeFromSuperview()
+            }
+        }
+    }
+    
     private let backgound: UIView = {
         let view = UIView()
         view.backgroundColor = .lightGray
@@ -16,7 +84,7 @@ class ProfileHeaderView: UIView {
         return view
     }()
     
-    private let profilePicture: UIImageView = {
+    private lazy var profilePicture: UIImageView = {
         let image = UIImageView()
         image.image = UIImage(named: "cat_with_lamp")
         image.translatesAutoresizingMaskIntoConstraints = false
@@ -24,6 +92,8 @@ class ProfileHeaderView: UIView {
         image.layer.borderWidth = 3
         image.layer.cornerRadius = 50
         image.layer.borderColor = UIColor.white.cgColor
+        image.isUserInteractionEnabled = true
+        image.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(imageAnimation)))
         return image
     }()
     
@@ -53,11 +123,6 @@ class ProfileHeaderView: UIView {
     }()
     
     @objc private func tapAction() {
-        print(statusText.text!)
-        testString = "xxxx"
-        print(testString)
-    }
-    @objc private func newTapAction() {
         print(statusText.text!)
     }
     
@@ -103,14 +168,6 @@ class ProfileHeaderView: UIView {
         statusText.text = statusTextField.text
     }
     
-    
-    private let testView: UIView = {
-        let view = UIView(frame: CGRect(x: 10, y: 0, width: 50, height: 50))
-        view.backgroundColor = .red
-        view.isHidden = true
-        return view
-    }()
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupView()
@@ -130,7 +187,6 @@ class ProfileHeaderView: UIView {
         addSubview(statusText)
         addSubview(statusTextButton)
         addSubview(statusTextField)
-        addSubview(testView)
         
         NSLayoutConstraint.activate([
             backgound.topAnchor.constraint(equalTo: topAnchor, constant: 0),
