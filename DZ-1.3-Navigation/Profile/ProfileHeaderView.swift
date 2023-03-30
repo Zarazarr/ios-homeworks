@@ -8,18 +8,27 @@
 import UIKit
 
 class ProfileHeaderView: UIView {
-    
+        
     private lazy var whiteView: UIView = {
         let view = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
-        view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .white
         view.alpha = 0.7
+        view.isUserInteractionEnabled = true
+        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(closeImage)))
         return view
     }()
+    
+    @objc private func closeImage() {
+        whiteView.removeFromSuperview()
+        closeButton.removeFromSuperview()
+        animatingImageView.removeFromSuperview()
+    }
     
     private lazy var animatingImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.clipsToBounds = true
+        imageView.isUserInteractionEnabled = true
+        imageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(closeImage)))
         return imageView
     }()
     
@@ -36,14 +45,8 @@ class ProfileHeaderView: UIView {
         addSubview(closeButton)
 
         NSLayoutConstraint.activate([
-            
-            whiteView.topAnchor.constraint(equalTo: superview!.safeAreaLayoutGuide.topAnchor, constant: 0),
-            whiteView.bottomAnchor.constraint(equalTo: superview!.safeAreaLayoutGuide.bottomAnchor, constant: 0),
-            whiteView.leftAnchor.constraint(equalTo: superview!.safeAreaLayoutGuide.leftAnchor, constant: 0),
-            whiteView.rightAnchor.constraint(equalTo: superview!.safeAreaLayoutGuide.rightAnchor, constant: 0),
-          
-            closeButton.topAnchor.constraint(equalTo: superview!.safeAreaLayoutGuide.topAnchor, constant: 0),
-            closeButton.rightAnchor.constraint(equalTo: superview!.safeAreaLayoutGuide.rightAnchor, constant: 0),
+            closeButton.topAnchor.constraint(equalTo: topAnchor),
+            closeButton.rightAnchor.constraint(equalTo: rightAnchor),
             ])
         
         closeButton.alpha = 0
@@ -79,7 +82,7 @@ class ProfileHeaderView: UIView {
     
     private let backgound: UIView = {
         let view = UIView()
-        view.backgroundColor = .lightGray
+        view.backgroundColor = .systemGray3
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -107,25 +110,6 @@ class ProfileHeaderView: UIView {
         return label
     }()
     
-    private lazy var statusButton: UIButton = {
-        let button = UIButton()
-        button.backgroundColor = .systemBlue
-        button.setTitle("Показать статус", for: .normal)
-        button.setTitleColor(.white, for: .normal)
-        button.layer.cornerRadius = 4
-        button.layer.shadowColor = UIColor.black.cgColor
-        button.layer.shadowRadius = 4
-        button.layer.shadowOpacity = 0.7
-        button.layer.shadowOffset = CGSize(width: 4, height: 4)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.addTarget(self, action: #selector(tapAction), for: .touchUpInside)
-        return button
-    }()
-    
-    @objc private func tapAction() {
-        print(statusText.text!)
-    }
-    
     private let statusText: UILabel = {
         let label = UILabel()
         label.text = "Настало время удивительных историй"
@@ -137,16 +121,20 @@ class ProfileHeaderView: UIView {
         return label
     }()
     
-    private lazy var statusTextButton: UIButton = {
+    private lazy var statusButton: UIButton = {
         let button = UIButton()
+        button.backgroundColor = .systemBlue
+        button.setTitle("Установить статус", for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.layer.cornerRadius = 4
+        button.layer.shadowColor = UIColor.black.cgColor
+        button.layer.shadowRadius = 4
+        button.layer.shadowOpacity = 0.7
+        button.layer.shadowOffset = CGSize(width: 4, height: 4)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.addTarget(self, action: #selector(statusTapAction), for: .touchUpInside)
+        button.addTarget(self, action: #selector(setStatusAction), for: .touchUpInside)
         return button
     }()
-    
-    @objc private func statusTapAction() {
-        statusTextField.isHidden = false
-    }
     
     private lazy var statusTextField: UITextField = {
         let textField = UITextField()
@@ -157,15 +145,20 @@ class ProfileHeaderView: UIView {
         textField.layer.borderColor = UIColor.black.cgColor
         textField.font = .systemFont(ofSize: 15, weight: .regular)
         textField.textColor = .black
-        textField.isHidden = true
+        textField.isHidden = false
+        textField.indent(size: 10)
         textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.addTarget(self, action: #selector(statusTextFieldAction), for: .editingDidEndOnExit)
+        textField.addTarget(self, action: #selector(setStatusAction), for: .editingDidEndOnExit)
         return textField
     }()
     
-    @objc private func statusTextFieldAction() {
-        statusTextField.isHidden = true
-        statusText.text = statusTextField.text
+    @objc private func setStatusAction() {
+        if statusTextField.text == "" {
+            statusTextField.shakeAnimation()
+        } else {
+            statusText.text = statusTextField.text
+            statusTextField.text = nil
+        }
     }
     
     override init(frame: CGRect) {
@@ -185,7 +178,6 @@ class ProfileHeaderView: UIView {
         addSubview(nameDisplay)
         addSubview(statusButton)
         addSubview(statusText)
-        addSubview(statusTextButton)
         addSubview(statusTextField)
         
         NSLayoutConstraint.activate([
@@ -201,25 +193,21 @@ class ProfileHeaderView: UIView {
             
             nameDisplay.topAnchor.constraint(equalTo: topAnchor, constant: 27),
             nameDisplay.leftAnchor.constraint(equalTo: profilePicture.rightAnchor, constant: 16),
+
+            statusText.topAnchor.constraint(equalTo: nameDisplay.bottomAnchor, constant: 16),
+            statusText.leftAnchor.constraint(equalTo: profilePicture.rightAnchor, constant: 16),
+            statusText.rightAnchor.constraint(equalTo: rightAnchor, constant: -16),
+
+            statusTextField.leftAnchor.constraint(equalTo: profilePicture.rightAnchor, constant: 16),
+            statusTextField.rightAnchor.constraint(equalTo: rightAnchor, constant: -16),
+            statusTextField.bottomAnchor.constraint(equalTo: statusButton.topAnchor, constant: -16),
+            statusTextField.heightAnchor.constraint(equalToConstant: 30),
             
             statusButton.topAnchor.constraint(equalTo: profilePicture.bottomAnchor, constant: 16),
             statusButton.leftAnchor.constraint(equalTo: leftAnchor, constant: 16),
             statusButton.rightAnchor.constraint(equalTo: rightAnchor, constant: -16),
             statusButton.heightAnchor.constraint(equalToConstant: 50),
             statusButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16),
-            
-            statusText.leftAnchor.constraint(equalTo: profilePicture.rightAnchor, constant: 16),
-            statusText.rightAnchor.constraint(equalTo: rightAnchor, constant: -16),
-            statusText.bottomAnchor.constraint(equalTo: statusButton.topAnchor, constant: -34),
-            
-            statusTextButton.leftAnchor.constraint(equalTo: profilePicture.rightAnchor, constant: 16),
-            statusTextButton.rightAnchor.constraint(equalTo: rightAnchor, constant: -16),
-            statusTextButton.bottomAnchor.constraint(equalTo: statusButton.topAnchor, constant: -34),
-            
-            statusTextField.topAnchor.constraint(equalTo: statusText.topAnchor, constant: 16),
-            statusTextField.leftAnchor.constraint(equalTo: profilePicture.rightAnchor, constant: 16),
-            statusTextField.rightAnchor.constraint(equalTo: rightAnchor, constant: -16),
-            statusTextField.heightAnchor.constraint(equalToConstant: 30),            
         ])
     }
 }
@@ -230,3 +218,4 @@ extension ProfileHeaderView: UITextFieldDelegate {
         return true
     }
 }
+

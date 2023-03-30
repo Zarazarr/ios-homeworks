@@ -7,16 +7,30 @@
 
 import UIKit
 
+protocol CustomCollectionViewCellDelegate: AnyObject {
+    func didTapImageInCell(_ image: UIImage?, frameImage: CGRect, indexPath: IndexPath)
+}
+
 final class GalleryCollectionViewCell: UICollectionViewCell {
     
-    let photo: UIImageView = {
+    weak var delegate: CustomCollectionViewCellDelegate?
+    
+    private var indexPathCell = IndexPath()
+    
+    lazy var photo: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "DSC_0051")
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
+        imageView.isUserInteractionEnabled = true
+        imageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tapAction)))
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
+    
+    @objc private func tapAction() {
+        delegate?.didTapImageInCell(photo.image, frameImage: photo.frame, indexPath: indexPathCell)
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -25,6 +39,10 @@ final class GalleryCollectionViewCell: UICollectionViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func setIndexPath(_ indexPath: IndexPath) {
+        indexPathCell = indexPath
     }
     
     func setupCell() {

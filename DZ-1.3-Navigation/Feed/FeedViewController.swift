@@ -11,6 +11,8 @@ class FeedViewController: UIViewController {
     
     var post = Post(title: "Мой пост")
     
+    var callBackTabBarControllerFeed: (() -> ())?
+    
     private let backgound: UIView = {
         let view = UIView()
         view.backgroundColor = .lightGray
@@ -59,14 +61,16 @@ class FeedViewController: UIViewController {
     @objc private func logoutButtonAction() {
         isLoggedIn = false
        
-        let alert = UIAlertController(title: "LogOut", message: "Пока не работает", preferredStyle: .alert)
+        let alert = UIAlertController(title: "LogOut", message: "Вы точно хотите выйти?", preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "Отмена", style: .destructive) { _ in
+        }
         let okAction = UIAlertAction(title: "Выйти", style: .default) { _ in
             self.dismiss(animated: true)
+            self.callBackTabBarControllerFeed?()
+            
         }
-        let cancelAction = UIAlertAction(title: "ОК", style: .destructive) { _ in
-        }
-        alert.addAction(cancelAction)
         alert.addAction(okAction)
+        alert.addAction(cancelAction)
         present(alert, animated: true)
     }
  
@@ -80,7 +84,6 @@ class FeedViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        //      navigationController?.setNavigationBarHidden(false, animated: true)
     }
     
     private func setupButtons() {

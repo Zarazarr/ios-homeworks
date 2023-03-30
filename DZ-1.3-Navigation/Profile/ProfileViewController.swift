@@ -9,15 +9,29 @@ import UIKit
 
 class ProfileViewController: UIViewController {
     
-    private let profilePost: [ProfilePost] = ProfilePost.makeMockModel()
+    private lazy var myRefreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        let title = NSLocalizedString("Refreshing", comment: "Pull to refresh")
+        refreshControl.attributedTitle = NSAttributedString(string: title)
+        refreshControl.addTarget(self, action: #selector(refresh(sender:)), for: .valueChanged)
+        return refreshControl
+    }()
     
-    private lazy var tableView: UITableView = {
+    @objc func refresh(sender: UIRefreshControl) {
+        profilePost = profilePostBackup
+        tableView.reloadData()
+        sender.endRefreshing()
+    }
+    
+    lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
         tableView.dataSource = self
         tableView.delegate = self
         tableView.sectionHeaderHeight = 0
         tableView.sectionFooterHeight = 0
         tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.isUserInteractionEnabled = true
+        tableView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(dismissInput)))
         tableView.register(PostTableViewCell.self, forCellReuseIdentifier: PostTableViewCell.identifier)
         tableView.register(GalleryTableViewCell.self, forCellReuseIdentifier: GalleryTableViewCell.identifier)
         
@@ -25,8 +39,7 @@ class ProfileViewController: UIViewController {
     }()
     
     @objc private func arrowButtonAction() {
-        let galleryVC = GalleryViewController()
-        navigationController?.pushViewController(galleryVC, animated: true)
+        navigationController?.pushViewController(GalleryViewController(), animated: true)
     }
     
     override func loadView() {
@@ -35,19 +48,35 @@ class ProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.tabBarController?.delegate = self
         view.backgroundColor = .systemBackground
         navigationItem.title = "Профиль"
+        tableView.refreshControl = myRefreshControl
         layout()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: true)
+        navigationController?.tabBarController?.tabBar.isHidden = false
+        tableView.reloadData()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        globalVCIndex = 0
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        globalVCIndex = nil
     }
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         tableView.frame = view.bounds
+    }
+    
+    func scrollToTop() {
+        tableView.setContentOffset(.zero, animated: true)
     }
     
     private func layout() {
@@ -83,7 +112,8 @@ extension ProfileViewController: UITableViewDataSource {
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: PostTableViewCell.identifier, for: indexPath) as! PostTableViewCell
-            cell.setupCell(model: profilePost[indexPath.row])
+            cell.setupCell(indexPath: indexPath)
+            cell.delegate = self
             return cell
         }
     }
@@ -94,9 +124,8 @@ extension ProfileViewController: UITableViewDataSource {
         } else {
             return nil
         }
-    } 
+    }
 }
-
 
 extension ProfileViewController: UITableViewDelegate {
     
@@ -115,5 +144,46 @@ extension ProfileViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 0
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    }
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            profilePost.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+            tableView.reloadData()
+        }
+    }
 }
 
+extension ProfileViewController: UITextFieldDelegate {
+    public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        view.endEditing(true)
+        return true
+    }
+    
+    @objc func dismissInput() {
+        view.endEditing(true)
+    }
+}
+
+extension ProfileViewController: PostTableViewCellDelegate {
+    func didTapImage(indexPath: IndexPath) {
+        navigationController?.pushViewController(ViewPostViewController(), animated: true)
+        globalIndexPath = indexPath
+    }
+}
+
+extension ProfileViewController: UITabBarControllerDelegate {
+    
+    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+        if tabBarController.selectedIndex == 0 && globalVCIndex == 0 {
+            scrollToTop()
+        }
+    }
+}
