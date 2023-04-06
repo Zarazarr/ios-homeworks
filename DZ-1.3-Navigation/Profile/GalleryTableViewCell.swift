@@ -14,14 +14,6 @@ class GalleryTableViewCell: UITableViewCell {
     private var randomInt3 = 0
     private var randomInt4 = 0
     
-    func generateRandomFoto() {
-        randomInt1 = Int.random(in: 51...55)
-        print(randomInt1)
-        randomInt2 = Int.random(in: 56...60)
-        randomInt3 = Int.random(in: 61...65)
-        randomInt4 = Int.random(in: 66...70)
-    }
-    
     private let photoLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -46,6 +38,7 @@ class GalleryTableViewCell: UITableViewCell {
         imageView.layer.cornerRadius = 6
         imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.isUserInteractionEnabled = true
         return imageView
     }()
     
@@ -88,6 +81,25 @@ class GalleryTableViewCell: UITableViewCell {
         return stackView
     }()
     
+        
+    private lazy var whiteView: UIView = {
+        let view = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
+        view.backgroundColor = .white
+        view.alpha = 0.7
+        return view
+    }()
+    
+    private lazy var animatingImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.clipsToBounds = true
+        return imageView
+    }()
+    
+    lazy var closeButton: UIButton = {
+        let button = UIButton(type: .close)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -99,6 +111,12 @@ class GalleryTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func generateRandomFoto() {
+        randomInt1 = Int.random(in: 51...55)
+        randomInt2 = Int.random(in: 56...60)
+        randomInt3 = Int.random(in: 61...65)
+        randomInt4 = Int.random(in: 66...70)
+    }
     
     func layout() {
                 

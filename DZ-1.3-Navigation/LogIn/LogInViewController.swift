@@ -9,6 +9,11 @@ import UIKit
 
 class LogInViewController: UIViewController {
     
+    var callBackTabBarControllerLogIn: (() -> ())?
+    
+    private let deffaultLogin = "catwithlamp@vk.ru"
+    private let deffaultPassword = "IOS-CP-3"
+    
     private let notification = NotificationCenter.default
     
     private var loginButtonCounter = 0
@@ -19,10 +24,12 @@ class LogInViewController: UIViewController {
         return scrollView
     }()
     
-    private let contentView: UIView = {
+    private lazy var contentView: UIView = {
         let contentView = UIView()
         contentView.translatesAutoresizingMaskIntoConstraints = false
         contentView.backgroundColor = .white
+        contentView.isUserInteractionEnabled = true
+        contentView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(dismissInput)))
         return contentView
     }()
     
@@ -32,19 +39,23 @@ class LogInViewController: UIViewController {
         $0.contentMode = .scaleAspectFill
         $0.clipsToBounds = true
         $0.isUserInteractionEnabled = true
-        $0.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(testBackdoor)))
+        $0.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(backdoor)))
+        $0.addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(fillLoginData)))
         return $0
     }(UIImageView())
     
-    @objc private func testBackdoor() {
+    @objc private func backdoor() {
         isLoggedIn = true
         loginButtonCounter += 1
         if loginButtonCounter > 4 {
-            navigationController?.pushViewController(TestVC(), animated: false)
+            navigationController?.pushViewController(ProfileViewController(), animated: false)
             loginButtonCounter = 0
         }
     }
-    
+    @objc private func fillLoginData() {
+        loginTextField.text = deffaultLogin
+        passwordTextField.text = deffaultPassword
+    }
     
     private lazy var loginTextField: UITextField = {
         let textField = UITextField()
@@ -58,15 +69,17 @@ class LogInViewController: UIViewController {
         textField.textColor = .black
         textField.tintColor = .dzCustomColor1
         textField.autocapitalizationType = .none
-        textField.isHidden = false
+        textField.isSecureTextEntry = false
+        textField.clearsOnBeginEditing = false
+        textField.delegate = self
+        textField.clearButtonMode = .whileEditing
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.indent(size: 10)
-        textField.addTarget(self, action: #selector(loginTextFieldAction), for: .editingDidEnd)
+        textField.addTarget(self, action: #selector(loginTextFieldAction), for: .editingDidEndOnExit)
         return textField
     }()
     
     @objc private func loginTextFieldAction() {
-        print(loginTextField.text as Any)
     }
     
     private lazy var passwordTextField: UITextField = {
@@ -83,27 +96,61 @@ class LogInViewController: UIViewController {
         textField.autocapitalizationType = .none
         textField.isHidden = false
         textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.delegate = self
         textField.isSecureTextEntry = true
+        textField.clearButtonMode = .whileEditing
+        textField.clearsOnBeginEditing = false
         textField.indent(size: 10)
-        textField.addTarget(self, action: #selector(passwordTextFieldAction), for: .editingDidEnd)
+        textField.addTarget(self, action: #selector(loginButtonAction), for: .editingDidEndOnExit)
+        textField.addTarget(self, action: #selector(clearWarning), for: .allEditingEvents)
         return textField
     }()
     
     @objc private func passwordTextFieldAction() {
-        print(passwordTextField.text as Any)
+    }
+    @objc private func clearWarning() {
+        shortPasswordLabel.isHidden = true
     }
     
-    func checkLoginButtonStates() {
-        switch logInButton.state {
-        case .normal: logInButton.alpha = 1
-        case .selected: logInButton.alpha = 0.8
-        case .highlighted: logInButton.alpha = 0.8
-        case .disabled: logInButton.alpha = 0.8
-        default:
-            break
+    private lazy var showPasswordButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "eye"), for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(showPassword), for: .touchUpInside)
+        return button
+    }()
+    
+    @objc private func showPassword() {
+        passwordTextField.isSecureTextEntry.toggle()
+        if passwordTextField.isSecureTextEntry == false {
+            showPasswordButton.setImage(UIImage(systemName: "eye.slash"), for: .normal)
+        } else {
+            showPasswordButton.setImage(UIImage(systemName: "eye"), for: .normal)
         }
     }
+    
+    private lazy var shortPasswordLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Пароль короче 6 символов"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textAlignment = .right
+        label.numberOfLines = 1
+        label.font = .systemFont(ofSize: 16, weight: .regular)
+        label.textColor = .red
+        label.isHidden = true
+        return label
+    }()
+    
+    private lazy var invalidEmailLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Ошибка в формате Email"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textAlignment = .right
+        label.numberOfLines = 1
+        label.font = .systemFont(ofSize: 16, weight: .regular)
+        label.textColor = .red
+        label.isHidden = true
+        return label
+    }()
     
     private lazy var logInButton: UIButton = {
         
@@ -115,18 +162,24 @@ class LogInViewController: UIViewController {
         button.setTitle("Log In", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
+        button.addTarget(self, action: #selector(loginButtonAction), for: .touchUpInside)
         return button
     }()
     
-    @objc private func buttonAction() {
-        isLoggedIn = true
-   //     loginButtonCounter += 1
-        print(loginButtonCounter)
-        if loginTextField.text == "Test" {
-            navigationController?.pushViewController(TestVC(), animated: false)
+    @objc private func loginButtonAction() {
+        if loginTextField.text == deffaultLogin && passwordTextField.text == deffaultPassword {
+            self.callBackTabBarControllerLogIn?()
+        } else if loginTextField.text == "" || passwordTextField.text == "" {
+            checkLoginPasswordEmpty()
+        } else if passwordTextField.text!.count < 6 {
+            shortPasswordLabel.isHidden = false
         } else {
-            navigationController?.pushViewController(ProfileViewController(), animated: false)
+            let alert = UIAlertController(title: "Неправильный логин или пароль", message: "Подсказка: logoImageView.addGestureRecognizer(UILongPressGestureRecognizer", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "OK", style: .default) { _ in
+                self.dismiss(animated: true)
+            }
+            alert.addAction(okAction)
+            present(alert, animated: true)
         }
     }
     
@@ -138,6 +191,8 @@ class LogInViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        loginTextField.text = ""
+        passwordTextField.text = ""
         navigationController?.tabBarController?.tabBar.isHidden = true
         notification.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         notification.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
@@ -156,12 +211,30 @@ class LogInViewController: UIViewController {
             scrollView.verticalScrollIndicatorInsets = UIEdgeInsets(top: 0, left: 0, bottom: keybordSize.height, right: 0)
         }
     }
-    
     @objc private func keyboardWillHide() {
         scrollView.contentInset = .zero
         scrollView.verticalScrollIndicatorInsets = .zero
     }
     
+    func checkLoginButtonStates() {
+        switch logInButton.state {
+        case .normal: logInButton.alpha = 1
+        case .selected: logInButton.alpha = 0.8
+        case .highlighted: logInButton.alpha = 0.8
+        case .disabled: logInButton.alpha = 0.8
+        default:
+            break
+        }
+    }
+    
+    private func checkLoginPasswordEmpty() {
+        if loginTextField.text == "" {
+                    loginTextField.shakeAnimation()
+        }
+        if passwordTextField.text == "" {
+            passwordTextField.shakeAnimation()
+        }
+    }
     
     private func layout() {
         view.addSubview(scrollView)
@@ -170,11 +243,10 @@ class LogInViewController: UIViewController {
         contentView.addSubview(loginTextField)
         contentView.addSubview(passwordTextField)
         contentView.addSubview(logInButton)
+        contentView.addSubview(shortPasswordLabel)
+        contentView.addSubview(showPasswordButton)
+        contentView.addSubview(invalidEmailLabel)
         checkLoginButtonStates()
-        
-        if isLoggedIn == true {
-            view.backgroundColor = .green
-        }
         
         NSLayoutConstraint.activate([
             
@@ -204,6 +276,16 @@ class LogInViewController: UIViewController {
             passwordTextField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             passwordTextField.heightAnchor.constraint(equalToConstant: 50),
             
+            shortPasswordLabel.rightAnchor.constraint(equalTo: passwordTextField.rightAnchor),
+            shortPasswordLabel.bottomAnchor.constraint(equalTo: passwordTextField.bottomAnchor),
+            
+            invalidEmailLabel.rightAnchor.constraint(equalTo: loginTextField.rightAnchor),
+            invalidEmailLabel.bottomAnchor.constraint(equalTo: loginTextField.bottomAnchor),
+            
+            showPasswordButton.rightAnchor.constraint(equalTo: passwordTextField.rightAnchor,constant: -25),
+            showPasswordButton.centerYAnchor.constraint(equalTo: passwordTextField.centerYAnchor),
+            showPasswordButton.heightAnchor.constraint(equalTo: passwordTextField.heightAnchor),
+            
             logInButton.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: 16),
             logInButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             logInButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
@@ -214,8 +296,18 @@ class LogInViewController: UIViewController {
 }
 
 extension LogInViewController: UITextFieldDelegate {
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+    public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         view.endEditing(true)
+        if textField ==  loginTextField {
+            passwordTextField.becomeFirstResponder()
+        } else {
+            textField.resignFirstResponder()
+        }
         return true
     }
+        
+    @objc func dismissInput() {
+        view.endEditing(true)
+    }
+    
 }

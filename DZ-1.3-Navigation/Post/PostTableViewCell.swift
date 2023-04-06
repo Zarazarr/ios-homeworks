@@ -7,8 +7,16 @@
 
 import UIKit
 
+protocol PostTableViewCellDelegate: AnyObject {
+    func didTapImage(indexPath: IndexPath)
+}
+
 class PostTableViewCell: UITableViewCell {
     
+    weak var delegate: PostTableViewCellDelegate?
+    
+    lazy var indexPathCell = IndexPath()
+           
     private let contentWhiteView: UIView = {
         let view = UIView()
         view.backgroundColor = .systemBackground
@@ -26,13 +34,19 @@ class PostTableViewCell: UITableViewCell {
         return label
     }()
     
-    private let postImageView: UIImageView = {
+    lazy var postImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.backgroundColor = .black
         imageView.contentMode = .scaleAspectFit
+        imageView.isUserInteractionEnabled = true
+        imageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(postImageAction)))
         return imageView
     }()
+    
+    @objc func postImageAction(){
+        delegate?.didTapImage(indexPath: indexPathCell)
+    }
     
     private let descriptionText: UILabel = {
         let label = UILabel()
@@ -44,14 +58,20 @@ class PostTableViewCell: UITableViewCell {
         return label
     }()
     
-    private let likesText: UILabel = {
+    private lazy var likesText: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.numberOfLines = 0
         label.font = .systemFont(ofSize: 16, weight: .regular)
         label.textColor = .black
+        label.isUserInteractionEnabled = true
+        label.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(likesIncrease)))
         return label
     }()
+    
+    @objc func likesIncrease(){
+        profilePost[indexPathCell.row].likes += 1
+        likesText.text = "Likes: \(profilePost[indexPathCell.row].likes)"
+    }
     
     private let viewsText: UILabel = {
         let label = UILabel()
@@ -61,7 +81,6 @@ class PostTableViewCell: UITableViewCell {
         label.textColor = .black
         return label
     }()
-    
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -81,12 +100,13 @@ class PostTableViewCell: UITableViewCell {
         viewsText.text = ""
     }
     
-    func setupCell(model: ProfilePost) {
-        authorText.text = model.author
-        postImageView.image = model.image
-        descriptionText.text = model.description
-        likesText.text = "Likes: \(model.likes)"
-        viewsText.text = "Views: \(model.views)"
+    func setupCell(indexPath: IndexPath) {
+        indexPathCell = indexPath
+        authorText.text = profilePost[indexPathCell.row].author
+        postImageView.image = profilePost[indexPathCell.row].image
+        descriptionText.text = profilePost[indexPathCell.row].description
+        likesText.text = "Likes: \(profilePost[indexPathCell.row].likes)"
+        viewsText.text = "Views: \(profilePost[indexPathCell.row].views)"
     }
     
     private func layout() {
@@ -121,3 +141,4 @@ class PostTableViewCell: UITableViewCell {
         ])
     }
 }
+

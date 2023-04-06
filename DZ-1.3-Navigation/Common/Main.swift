@@ -10,18 +10,19 @@ import UIKit
 
 var isLoggedIn = false
 
+var globalVCIndex: Int?
+
+var globalIndexPath: IndexPath = []
+
 var testCounter = 0
 
 var testString = "Тест"
 
 extension UIColor {
-    
     // Setup custom colours we can use throughout the app using hex values
     static let seemuBlue = UIColor(hex: 0x00adf7)
     static let youtubeRed = UIColor(hex: 0xf80000)
     static let dzCustomColor1 = UIColor(hex: 0x4885CC)
-    
-    
     // Create a UIColor from RGB
     convenience init(red: Int, green: Int, blue: Int, a: CGFloat = 1.0) {
         self.init(
@@ -31,7 +32,6 @@ extension UIColor {
             alpha: a
         )
     }
-    
     // Create a UIColor from a hex value (E.g 0x000000)
     convenience init(hex: Int, a: CGFloat = 1.0) {
         self.init(
@@ -44,9 +44,20 @@ extension UIColor {
 }
 
 extension UITextField {
+    
     func indent(size:CGFloat) {
         self.leftView = UIView(frame: CGRect(x: self.frame.minX, y: self.frame.minY, width: size, height: self.frame.height))
         self.leftViewMode = .always
+    }
+    
+    func shakeAnimation() {
+        let animation = CABasicAnimation(keyPath: "position")
+        animation.duration = 0.05
+        animation.repeatCount = 5
+        animation.autoreverses = true
+        animation.fromValue = NSValue(cgPoint: CGPoint(x: self.center.x - 5, y: self.center.y))
+        animation.toValue = NSValue(cgPoint: CGPoint(x: self.center.x + 5, y: self.center.y))
+        self.layer.add(animation, forKey: "position")
     }
 }
 
